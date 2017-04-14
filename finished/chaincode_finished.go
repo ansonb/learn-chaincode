@@ -111,6 +111,6 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		return nil, errors.New(jsonResp)
 	}
         
-	newByte = [0x00,0x01]
+	newByte = []byte("Test change....")
 	return append(newByte, valAsbytes), nil
 }
