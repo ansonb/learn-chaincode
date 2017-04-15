@@ -18,7 +18,7 @@ package main
 
 import (
 	"errors"
-	"fmt"
+	_ "fmt"
         "encoding/json"
 	"regexp"
 	"strconv"
