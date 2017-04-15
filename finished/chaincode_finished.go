@@ -312,7 +312,7 @@ func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller s
 func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, status string) ([]byte, error) {
         var err error
 	
-	new_status, err := strconv.Atoi(string(status) // will return an error if the new vin contains non numerical chars
+	new_status, err := strconv.Atoi(string(status)) // will return an error if the new vin contains non numerical chars
 
 	if err != nil{ return nil, errors.New("Invalid value passed for status") }
 	/*Update state only when hese conditions are met
@@ -384,7 +384,7 @@ func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, 
 func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
         var err error
 	
-	new_amount, err := strconv.Atoi(string(amount) // will return an error if the new vin contains non numerical chars
+	new_amount, err := strconv.Atoi(string(amount)) // will return an error if the new vin contains non numerical chars
 
 	if err != nil{ return nil, errors.New("Invalid value passed for loan amount") }
 	/*Update state only when hese conditions are met
@@ -412,7 +412,7 @@ func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v 
 func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
         var err error
 	
-	new_amount, err := strconv.Atoi(string(amount) // will return an error if the new vin contains non numerical chars
+	new_amount, err := strconv.Atoi(string(amount)) // will return an error if the new vin contains non numerical chars
 
 	if err != nil{ return nil, errors.New("Invalid value passed for disbursed amount") }
 
@@ -439,7 +439,7 @@ func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterfac
 func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount string) ([]byte, error) {
         var err error
 	
-	new_amount, err := strconv.Atoi(string(amount) // will return an error if the new vin contains non numerical chars
+	new_amount, err := strconv.Atoi(string(amount)) // will return an error if the new vin contains non numerical chars
 
 	if err != nil{ return nil, errors.New("Invalid value passed for repayed amount") }	
 	
