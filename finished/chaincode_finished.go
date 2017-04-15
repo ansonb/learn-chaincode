@@ -236,7 +236,7 @@ func (t *SimpleChaincode) save_changes(stub shim.ChaincodeStubInterface, v loan)
 //=================================================================================================================================
 //	 Create Vehicle - Creates the initial JSON for the vehcile and then saves it to the ledger.
 //=================================================================================================================================
-func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller string, caller_affiliation string, v5cID string) ([]byte, error) {
+func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, v5cID string) ([]byte, error) {
 	var v loan
 	//var v5c_ID string
 	//var borrower_ string
@@ -310,7 +310,7 @@ func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller s
 //=================================================================================================================================
 //	 update_status
 //=================================================================================================================================
-func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, status string) ([]byte, error) {
+func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan, status string) ([]byte, error) {
         var err error
 	
 	new_status, err := strconv.Atoi(string(status)) // will return an error if the new vin contains non numerical chars
@@ -336,7 +336,7 @@ func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan
 //=================================================================================================================================
 //	 update_borrower
 //=================================================================================================================================
-func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, borrower string) ([]byte, error) {
+func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface, v loan, borrower string) ([]byte, error) {
         var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
@@ -359,7 +359,7 @@ func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface, v lo
 //=================================================================================================================================
 //	 update_leadarranger
 //=================================================================================================================================
-func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, arranger string) ([]byte, error) {
+func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, v loan, arranger string) ([]byte, error) {
         var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
@@ -382,7 +382,7 @@ func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, 
 //=================================================================================================================================
 //	 update_loanamount
 //=================================================================================================================================
-func (t *SimpleChaincode) update_loanAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
+func (t *SimpleChaincode) update_loanAmount(stub shim.ChaincodeStubInterface, v loan, amount string) ([]byte, error) {
         var err error
 	
 	new_amount, err := strconv.Atoi(string(amount)) // will return an error if the new vin contains non numerical chars
@@ -410,7 +410,7 @@ func (t *SimpleChaincode) update_loanAmount(stub shim.ChaincodeStubInterface, v 
 //=================================================================================================================================
 //	 update_disbursedAmount
 //=================================================================================================================================
-func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
+func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterface, v loan, amount string) ([]byte, error) {
         var err error
 	
 	new_amount, err := strconv.Atoi(string(amount)) // will return an error if the new vin contains non numerical chars
@@ -437,7 +437,7 @@ func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterfac
 //=================================================================================================================================
 //	 update_repayedAmount
 //=================================================================================================================================
-func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
+func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface, v loan, amount string) ([]byte, error) {
         var err error
 	
 	new_amount, err := strconv.Atoi(string(amount)) // will return an error if the new vin contains non numerical chars
@@ -464,7 +464,7 @@ func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface,
 //=================================================================================================================================
 //	 update_participatingBank
 //=================================================================================================================================
-func (t *SimpleChaincode) update_participatingBank(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_bank string) ([]byte, error) {
+func (t *SimpleChaincode) update_participatingBank(stub shim.ChaincodeStubInterface, v loan, new_bank string) ([]byte, error) {
         var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
@@ -488,7 +488,7 @@ func (t *SimpleChaincode) update_participatingBank(stub shim.ChaincodeStubInterf
 //=================================================================================================================================
 //	 get_loan_details
 //=================================================================================================================================
-func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string) ([]byte, error) {
+func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, v loan) ([]byte, error) {
 
 	bytes, err := json.Marshal(v)
 
@@ -509,7 +509,7 @@ func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, v l
 //	 get_loans
 //=================================================================================================================================
 
-func (t *SimpleChaincode) get_loans(stub shim.ChaincodeStubInterface, caller string, caller_affiliation string) ([]byte, error) {
+func (t *SimpleChaincode) get_loans(stub shim.ChaincodeStubInterface) ([]byte, error) {
 	bytes, err := stub.GetState("v5cIDs")
 
 																			if err != nil { return nil, errors.New("Unable to get v5cIDs") }
@@ -675,11 +675,11 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 
 
 
-		} else if function == "update_status"  	    { return t.update_status(stub, v, caller, caller_affiliation, args[0])
-		} else if function == "update_loanAmount"        { return t.update_loanAmount(stub, v, caller, caller_affiliation, args[0])
-		} else if function == "update_borrower" { return t.update_borrower(stub, v, caller, caller_affiliation, args[0])
-		} else if function == "update_disbursedAmount" 			{ return t.update_disbursedAmount(stub, v, caller, caller_affiliation, args[0])
-        	} else if function == "update_repayedAmount" 		{ return t.update_repayedAmount(stub, v, caller, caller_affiliation, args[0])
+		} else if function == "update_status"  	    { return t.update_status(stub, v, args[0])
+		} else if function == "update_loanAmount"        { return t.update_loanAmount(stub, v, args[0])
+		} else if function == "update_borrower" { return t.update_borrower(stub, v, args[0])
+		} else if function == "update_disbursedAmount" 			{ return t.update_disbursedAmount(stub, v, args[0])
+        	} else if function == "update_repayedAmount" 		{ return t.update_repayedAmount(stub, v, args[0])
 		}
 		return nil, errors.New("Function of the name "+ function +" doesn't exist.")
 
@@ -703,11 +703,11 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		if len(args) != 1 { fmt.Printf("Incorrect number of arguments passed"); return nil, errors.New("QUERY: Incorrect number of arguments passed") }
 		v, err := t.retrieve_v5c(stub, args[0])
 		if err != nil { fmt.Printf("QUERY: Error retrieving v5c: %s", err); return nil, errors.New("QUERY: Error retrieving v5c "+err.Error()) }
-		return t.get_loan_details(stub, v, caller, caller_affiliation)
+		return t.get_loan_details(stub, v)
 	} else if function == "check_unique_v5c" {
-		return t.check_unique_v5c(stub, args[0], caller, caller_affiliation)
+		return t.check_unique_v5c(stub, args[0])
 	} else if function == "get_loans" {
-		return t.get_loans(stub, caller, caller_affiliation)
+		return t.get_loans(stub)
 	} else if function == "get_ecert" {
 		return t.get_ecert(stub, args[0])
 	} else if function == "ping" {
