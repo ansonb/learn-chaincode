@@ -66,7 +66,7 @@ type loan struct {
 	repayedAmount         int `json:"repayedAmount"`
 	borrower              string `json:"borrower"`
 	leadArranger          string `json:"leadArranger"`
-	participatingBank     bool `json:"participatingBank"`
+	participatingBank     string `json:"participatingBank"`
 	Status                int `json:"status"`
 	V5cID                 string `json:"v5cID"`
 }
