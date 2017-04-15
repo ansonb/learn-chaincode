@@ -25,7 +25,7 @@ import (
 )
 
 var logger = shim.NewLogger("CLDChaincode")
-error err = new(error)
+var err = nil
 //==============================================================================================================================
 //	 Participant types - Each participant type is mapped to an integer which we use to compare to the value stored in a
 //						 user's eCert
