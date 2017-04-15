@@ -197,7 +197,7 @@ func (t *SimpleChaincode) get_caller_data(stub shim.ChaincodeStubInterface) (str
 //					JSON into the loan struct for use in the contract. Returns the loan struct.
 //					Returns empty v if it errors.
 //==============================================================================================================================
-func (t *SimpleChaincode) retrieve_v5c(stub shim.ChaincodeStubInterface, v5cID string) (Vehicle, error) {
+func (t *SimpleChaincode) retrieve_v5c(stub shim.ChaincodeStubInterface, v5cID string) (loan, error) {
 
 	var v loan
 
@@ -236,7 +236,7 @@ func (t *SimpleChaincode) save_changes(stub shim.ChaincodeStubInterface, v loan)
 //	 Create Vehicle - Creates the initial JSON for the vehcile and then saves it to the ledger.
 //=================================================================================================================================
 func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller string, caller_affiliation string, v5cID string) ([]byte, error) {
-	var v Vehicle
+	var v loan
 
 	V5cID              := "\"v5cID\":\""+v5cID+"\", "							// Variables to define the JSON
 	loanAmount         := "\"loanAmount\":\"UNDEFINED\", "
@@ -248,7 +248,7 @@ func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller s
 	Status             := "\"Status\":0, "
 
 	
-	loan_json := "{"+v5ID+loanAmount+disbursedAmoun+repayedAmount+borrower+leadArranger+participatingBank+Status+"}" 	// Concatenates the variables to create the total JSON object
+	loan_json := "{"+v5cID+loanAmount+disbursedAmoun+repayedAmount+borrower+leadArranger+participatingBank+Status+"}" 	// Concatenates the variables to create the total JSON object
 
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(v5cID))  				// matched = true if the v5cID passed fits format of two letters followed by seven digits
 
