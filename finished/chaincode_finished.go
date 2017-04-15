@@ -24,10 +24,6 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
-// SimpleChaincode example simple Chaincode implementation
-type SimpleChaincode struct {
-}
-
 var logger = shim.NewLogger("CLDChaincode")
 
 //==============================================================================================================================
