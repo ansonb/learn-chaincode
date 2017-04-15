@@ -317,7 +317,7 @@ func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan
 	(v.State == STATE_PARTICIPATING_BANK_ACCEPT && (caller == PARTICIPATINGBANK || caller == LEADARRANGER)) ||
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
-        	v.Status = new_status				// Update to the new value
+        v.Status = new_status				// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
