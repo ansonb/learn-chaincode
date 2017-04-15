@@ -381,7 +381,7 @@ func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, 
 //=================================================================================================================================
 //	 update_loanamount
 //=================================================================================================================================
-func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
+func (t *SimpleChaincode) update_loanAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
         var err error
 	
 	new_amount, err := strconv.Atoi(string(amount)) // will return an error if the new vin contains non numerical chars
@@ -436,7 +436,7 @@ func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterfac
 //=================================================================================================================================
 //	 update_repayedAmount
 //=================================================================================================================================
-func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount string) ([]byte, error) {
+func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
         var err error
 	
 	new_amount, err := strconv.Atoi(string(amount)) // will return an error if the new vin contains non numerical chars
@@ -544,6 +544,18 @@ func (t *SimpleChaincode) get_loans(stub shim.ChaincodeStubInterface, caller str
 	}
 
 	return []byte(result), nil
+}
+//==============================================================================================================================
+//	 get_ecert - Takes the name passed and calls out to the REST API for HyperLedger to retrieve the ecert
+//				 for that user. Returns the ecert as retrived including html encoding.
+//==============================================================================================================================
+func (t *SimpleChaincode) get_ecert(stub shim.ChaincodeStubInterface, name string) ([]byte, error) {
+
+	ecert, err := stub.GetState(name)
+
+	if err != nil { return nil, errors.New("Couldn't retrieve ecert for user " + name) }
+
+	return ecert, nil
 }
 
 //=================================================================================================================================
@@ -666,7 +678,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		} else if function == "update_loanAmount"        { return t.update_loanAmount(stub, v, caller, caller_affiliation, args[0])
 		} else if function == "update_borrower" { return t.update_borrower(stub, v, caller, caller_affiliation, args[0])
 		} else if function == "update_disbursedAmount" 			{ return t.update_disbursedAmount(stub, v, caller, caller_affiliation, args[0])
-        	} else if function == "update_repayedAmunt" 		{ return t.update_repayedAmunt(stub, v, caller, caller_affiliation, args[0])
+        	} else if function == "update_repayedAmount" 		{ return t.update_repayedAmount(stub, v, caller, caller_affiliation, args[0])
 		}
 		return nil, errors.New("Function of the name "+ function +" doesn't exist.")
 
