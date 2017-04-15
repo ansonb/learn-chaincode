@@ -61,7 +61,7 @@ type  SimpleChaincode struct {
 //			  that element when reading a JSON object into the struct e.g. JSON make -> Struct Make.
 //==============================================================================================================================
 type loan struct {
-	loanAmount            string `json:"loanAmount"`
+	loanAmount            int `json:"loanAmount"`
 	disbursedAmoun        int `json:"disbursedAmount"`
 	repayedAmount         int `json:"repayedAmount"`
 	borrower              string `json:"borrower"`
