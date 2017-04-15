@@ -22,6 +22,7 @@ import (
         "encoding/json"
 	"regexp"
 	"strconv"
+	"strings"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
