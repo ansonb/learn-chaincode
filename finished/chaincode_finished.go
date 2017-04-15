@@ -332,6 +332,76 @@ func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan
 }
 
 //=================================================================================================================================
+//	 update_borrower
+//=================================================================================================================================
+func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, borrower string) ([]byte, error) {
+        
+	/*Update state only when hese conditions are met
+	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
+	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
+	(v.State == STATE_INVITE_PARTICIPATING_BANK && caller == PARTICIPATINGBANK) || 
+	(v.State == STATE_PARTICIPATING_BANK_ACCEPT && (caller == PARTICIPATINGBANK || caller == LEADARRANGER)) ||
+	(v.State == STATE_DISBURSED && caller == BORROWER) ||
+	{*/
+	//TODO: Borrower should not be updated everytime
+        	v.borrower = borrower			// Update to the new value
+	//}
+	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
+
+	if err != nil { fmt.Printf("UPDATE_STATUS: Error saving changes: %s", err); return nil, errors.New("Error saving changes") }
+
+	return nil, nil
+
+}
+
+//=================================================================================================================================
+//	 update_leadarranger
+//=================================================================================================================================
+func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, arranger string) ([]byte, error) {
+        
+	/*Update state only when hese conditions are met
+	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
+	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
+	(v.State == STATE_INVITE_PARTICIPATING_BANK && caller == PARTICIPATINGBANK) || 
+	(v.State == STATE_PARTICIPATING_BANK_ACCEPT && (caller == PARTICIPATINGBANK || caller == LEADARRANGER)) ||
+	(v.State == STATE_DISBURSED && caller == BORROWER) ||
+	{*/
+	//TODO: arranger should not be updated everytime
+        	v.leadArranger = arranger			// Update to the new value
+	//}
+	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
+
+	if err != nil { fmt.Printf("UPDATE_STATUS: Error saving changes: %s", err); return nil, errors.New("Error saving changes") }
+
+	return nil, nil
+
+}
+
+//=================================================================================================================================
+//	 update_loanamount
+//=================================================================================================================================
+func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount int) ([]byte, error) {
+        
+	/*Update state only when hese conditions are met
+	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
+	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
+	(v.State == STATE_INVITE_PARTICIPATING_BANK && caller == PARTICIPATINGBANK) || 
+	(v.State == STATE_PARTICIPATING_BANK_ACCEPT && (caller == PARTICIPATINGBANK || caller == LEADARRANGER)) ||
+	(v.State == STATE_DISBURSED && caller == BORROWER) ||
+	{*/
+	//TODO: loanAmount should not be updated everytime
+        	v.loanAmount = amount			// Update to the new value
+	//}
+	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
+
+	if err != nil { fmt.Printf("UPDATE_STATUS: Error saving changes: %s", err); return nil, errors.New("Error saving changes") }
+
+	return nil, nil
+
+}
+
+
+//=================================================================================================================================
 //	 update_disbursedAmount
 //=================================================================================================================================
 func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount int) ([]byte, error) {
@@ -473,6 +543,7 @@ func (t *SimpleChaincode) check_unique_v5c(stub shim.ChaincodeStubInterface, v5c
 	}
 }
 
+/*
 // Invoke issuer entry point to invoke a chaincode function
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("invoke is running " + function)
@@ -539,6 +610,16 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 	//var newByte = []byte("Test change....")
 	return valAsbytes, nil
 }
+*/
+
+//=================================================================================================================================
+//	 Ping Function
+//=================================================================================================================================
+//	 Pings the peer to keep the connection alive
+//=================================================================================================================================
+func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error) {
+	return []byte("Hello, world!"), nil
+}
 
 //==============================================================================================================================
 //	 Router Functions
@@ -577,4 +658,37 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 
 	}
 }
+
+//=================================================================================================================================
+//	Query - Called on chaincode query. Takes a function name passed and calls that function. Passes the
+//  		initial arguments passed are passed on to the called function.
+//=================================================================================================================================
+func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+
+	caller, caller_affiliation, err := t.get_caller_data(stub)
+	if err != nil { fmt.Printf("QUERY: Error retrieving caller details", err); return nil, errors.New("QUERY: Error retrieving caller details: "+err.Error()) }
+
+    logger.Debug("function: ", function)
+    logger.Debug("caller: ", caller)
+    logger.Debug("affiliation: ", caller_affiliation)
+
+	if function == "get_loan_details" {
+		if len(args) != 1 { fmt.Printf("Incorrect number of arguments passed"); return nil, errors.New("QUERY: Incorrect number of arguments passed") }
+		v, err := t.retrieve_v5c(stub, args[0])
+		if err != nil { fmt.Printf("QUERY: Error retrieving v5c: %s", err); return nil, errors.New("QUERY: Error retrieving v5c "+err.Error()) }
+		return t.get_loan_details(stub, v, caller, caller_affiliation)
+	} else if function == "check_unique_v5c" {
+		return t.check_unique_v5c(stub, args[0], caller, caller_affiliation)
+	} else if function == "get_loans" {
+		return t.get_loans(stub, caller, caller_affiliation)
+	} else if function == "get_ecert" {
+		return t.get_ecert(stub, args[0])
+	} else if function == "ping" {
+		return t.ping(stub)
+	}
+
+	return nil, errors.New("Received unknown function invocation " + function)
+
+}
+
 
