@@ -256,7 +256,7 @@ func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller s
 
 												if err != nil { fmt.Printf("CREATE_LOAN: Invalid v5cID: %s", err); return nil, errors.New("Invalid v5cID") }
 
-	if 				v5c_ID  == "" 	 ||
+	if 				V5c_ID  == "" 	 ||
 					matched == false    {
 																		fmt.Printf("CREATE_LOAN: Invalid v5cID provided");
 																		return nil, errors.New("Invalid v5cID provided")
