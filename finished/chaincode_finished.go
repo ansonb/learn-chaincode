@@ -25,7 +25,7 @@ import (
 )
 
 var logger = shim.NewLogger("CLDChaincode")
-var err = nil
+
 //==============================================================================================================================
 //	 Participant types - Each participant type is mapped to an integer which we use to compare to the value stored in a
 //						 user's eCert
@@ -511,7 +511,7 @@ func (t *SimpleChaincode) get_loans(stub shim.ChaincodeStubInterface, caller str
 
 		if err != nil {return nil, errors.New("Failed to retrieve V5C")}
 
-		temp, err = t.get_vehicle_details(stub, v, caller, caller_affiliation)
+		temp, err = t.get_loan_details(stub, v, caller, caller_affiliation)
 
 		if err == nil {
 			result += string(temp) + ","
@@ -643,13 +643,12 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 
 
 
-		} else if function == "update_make"  	    { return t.update_make(stub, v, caller, caller_affiliation, args[0])
-		} else if function == "update_model"        { return t.update_model(stub, v, caller, caller_affiliation, args[0])
-		} else if function == "update_reg" { return t.update_registration(stub, v, caller, caller_affiliation, args[0])
-		} else if function == "update_vin" 			{ return t.update_vin(stub, v, caller, caller_affiliation, args[0])
-        } else if function == "update_colour" 		{ return t.update_colour(stub, v, caller, caller_affiliation, args[0])
-		} else if function == "scrap_vehicle" 		{ return t.scrap_vehicle(stub, v, caller, caller_affiliation) }
-
+		} else if function == "update_status"  	    { return t.update_status(stub, v, caller, caller_affiliation, args[0])
+		} else if function == "update_loanAmount"        { return t.update_loanAmount(stub, v, caller, caller_affiliation, args[0])
+		} else if function == "update_borrower" { return t.update_borrower(stub, v, caller, caller_affiliation, args[0])
+		} else if function == "update_disbursedAmount" 			{ return t.update_disbursedAmount(stub, v, caller, caller_affiliation, args[0])
+        	} else if function == "update_repayedAmunt" 		{ return t.update_repayedAmunt(stub, v, caller, caller_affiliation, args[0])
+		}
 		return nil, errors.New("Function of the name "+ function +" doesn't exist.")
 
 	}
