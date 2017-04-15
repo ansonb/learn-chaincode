@@ -62,7 +62,7 @@ type  SimpleChaincode struct {
 //==============================================================================================================================
 type loan struct {
 	loanAmount            int `json:"loanAmount"`
-	disbursedAmoun        int `json:"disbursedAmount"`
+	disbursedAmount        int `json:"disbursedAmount"`
 	repayedAmount         int `json:"repayedAmount"`
 	borrower              string `json:"borrower"`
 	leadArranger          string `json:"leadArranger"`
@@ -308,8 +308,12 @@ func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller s
 //=================================================================================================================================
 //	 update_status
 //=================================================================================================================================
-func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_status int) ([]byte, error) {
+func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, status string) ([]byte, error) {
         var err error
+	
+	new_status, err := strconv.Atoi(string(status) // will return an error if the new vin contains non numerical chars
+
+	if err != nil{ return nil, errors.New("Invalid value passed for status") }
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -376,8 +380,12 @@ func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, 
 //=================================================================================================================================
 //	 update_loanamount
 //=================================================================================================================================
-func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount int) ([]byte, error) {
+func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
         var err error
+	
+	new_amount, err := strconv.Atoi(string(amount) // will return an error if the new vin contains non numerical chars
+
+	if err != nil{ return nil, errors.New("Invalid value passed for loan amount") }
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -386,7 +394,7 @@ func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v 
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
 	//TODO: loanAmount should not be updated everytime
-        v.loanAmount = amount			// Update to the new value
+        v.loanAmount = new_amount			// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
@@ -400,8 +408,13 @@ func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v 
 //=================================================================================================================================
 //	 update_disbursedAmount
 //=================================================================================================================================
-func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount int) ([]byte, error) {
+func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount string) ([]byte, error) {
         var err error
+	
+	new_amount, err := strconv.Atoi(string(amount) // will return an error if the new vin contains non numerical chars
+
+	if err != nil{ return nil, errors.New("Invalid value passed for disbursed amount") }
+
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -409,7 +422,7 @@ func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterfac
 	(v.State == STATE_PARTICIPATING_BANK_ACCEPT && (caller == PARTICIPATINGBANK || caller == LEADARRANGER)) ||
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
-        v.repayedAmount = new_amount				// Update to the new value
+        v.disbursedAmount = new_amount				// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
@@ -422,8 +435,13 @@ func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterfac
 //=================================================================================================================================
 //	 update_repayedAmount
 //=================================================================================================================================
-func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount int) ([]byte, error) {
+func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount string) ([]byte, error) {
         var err error
+	
+	new_amount, err := strconv.Atoi(string(amount) // will return an error if the new vin contains non numerical chars
+
+	if err != nil{ return nil, errors.New("Invalid value passed for repayed amount") }	
+	
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -431,7 +449,7 @@ func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface,
 	(v.State == STATE_PARTICIPATING_BANK_ACCEPT && (caller == PARTICIPATINGBANK || caller == LEADARRANGER)) ||
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
-        v.disbursedAmount = new_amount				// Update to the new value
+        v.repayedAmount = new_amount				// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
