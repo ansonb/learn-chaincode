@@ -250,7 +250,7 @@ func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller s
 	participatingBank  := "\"participatingBank\":\"UNDEFINED\", "
 	Status             := "\"Status\":0, "
         	
-	loan_json := "{"+v5c_ID+loanAmount+disbursedAmoun+repayedAmount+borrower_+leadArranger+participatingBank+Status+"}" 	// Concatenates the variables to create the total JSON object
+	loan_json := "{"+V5c_ID+loanAmount+disbursedAmoun+repayedAmount+borrower_+leadArranger+participatingBank+Status+"}" 	// Concatenates the variables to create the total JSON object
 
 	matched, err := regexp.Match("^[0-9]+", []byte(v5cID))  				// matched = true if the v5cID passed fits format of two letters followed by seven digits
 
