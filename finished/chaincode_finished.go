@@ -18,7 +18,7 @@ package main
 
 import (
 	"errors"
-	_ "fmt"
+	"fmt"
         "encoding/json"
 	"regexp"
 	"strconv"
@@ -238,19 +238,18 @@ func (t *SimpleChaincode) save_changes(stub shim.ChaincodeStubInterface, v loan)
 //=================================================================================================================================
 func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller string, caller_affiliation string, v5cID string) ([]byte, error) {
 	var v loan
-	var v5c_ID string
-	var borrower_ string
+	//var v5c_ID string
+	//var borrower_ string
 	
 	V5c_ID             := "\"v5cID\":\""+v5cID+"\", "							// Variables to define the JSON
 	loanAmount         := "\"loanAmount\":\"UNDEFINED\", "
 	disbursedAmoun     := "\"disbursedAmoun\":\"UNDEFINED\", "
 	repayedAmount      := "\"repayedAmount\":\"UNDEFINED\", "
-	borrower_          = "\"borrower\":\""+caller+"\", "
+	borrower_          := "\"borrower\":\""+caller+"\", "
 	leadArranger   	   := "\"leadArranger\":\"UNDEFINED\", "
 	participatingBank  := "\"participatingBank\":\"UNDEFINED\", "
 	Status             := "\"Status\":0, "
-
-	
+        	
 	loan_json := "{"+v5c_ID+loanAmount+disbursedAmoun+repayedAmount+borrower_+leadArranger+participatingBank+Status+"}" 	// Concatenates the variables to create the total JSON object
 
 	matched, err := regexp.Match("^[0-9]+", []byte(v5cID))  				// matched = true if the v5cID passed fits format of two letters followed by seven digits
