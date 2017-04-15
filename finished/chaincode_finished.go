@@ -308,7 +308,7 @@ func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller s
 //=================================================================================================================================
 //	 update_status
 //=================================================================================================================================
-func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_status string) ([]byte, error) {
+func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_status int) ([]byte, error) {
         
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
@@ -422,7 +422,7 @@ func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterfac
 //=================================================================================================================================
 //	 update_repayedAmount
 //=================================================================================================================================
-func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount int) ([]byte, error) {
+func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount int) ([]byte, error) {
         
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
