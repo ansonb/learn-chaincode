@@ -309,7 +309,7 @@ func (t *SimpleChaincode) create_loan(stub shim.ChaincodeStubInterface, caller s
 //	 update_status
 //=================================================================================================================================
 func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_status int) ([]byte, error) {
-        
+        var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -331,7 +331,7 @@ func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface, v loan
 //	 update_borrower
 //=================================================================================================================================
 func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, borrower string) ([]byte, error) {
-        
+        var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -354,7 +354,7 @@ func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface, v lo
 //	 update_leadarranger
 //=================================================================================================================================
 func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, arranger string) ([]byte, error) {
-        
+        var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -377,7 +377,7 @@ func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, 
 //	 update_loanamount
 //=================================================================================================================================
 func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, amount int) ([]byte, error) {
-        
+        var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -401,7 +401,7 @@ func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v 
 //	 update_disbursedAmount
 //=================================================================================================================================
 func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount int) ([]byte, error) {
-        
+        var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -423,7 +423,7 @@ func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterfac
 //	 update_repayedAmount
 //=================================================================================================================================
 func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_amount int) ([]byte, error) {
-        
+        var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
@@ -445,7 +445,7 @@ func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface,
 //	 update_participatingBank
 //=================================================================================================================================
 func (t *SimpleChaincode) update_participatingBank(stub shim.ChaincodeStubInterface, v loan, caller string, caller_affiliation string, new_bank string) ([]byte, error) {
-        
+        var err error
 	/*Update state only when hese conditions are met
 	if (v.State == STATE_INIT && caller == LEADARRANGER) ||
 	(v.State == STATE_LA_ACCEPT && caller == LEADARRANGER) ||
