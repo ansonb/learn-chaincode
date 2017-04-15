@@ -340,7 +340,7 @@ func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface, v lo
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
 	//TODO: Borrower should not be updated everytime
-        	v.borrower = borrower			// Update to the new value
+        v.borrower = borrower			// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
@@ -363,7 +363,7 @@ func (t *SimpleChaincode) update_leadarranger(stub shim.ChaincodeStubInterface, 
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
 	//TODO: arranger should not be updated everytime
-        	v.leadArranger = arranger			// Update to the new value
+        v.leadArranger = arranger			// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
@@ -386,7 +386,7 @@ func (t *SimpleChaincode) update_loanamount(stub shim.ChaincodeStubInterface, v 
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
 	//TODO: loanAmount should not be updated everytime
-        	v.loanAmount = amount			// Update to the new value
+        v.loanAmount = amount			// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
@@ -409,7 +409,7 @@ func (t *SimpleChaincode) update_disbursedAmount(stub shim.ChaincodeStubInterfac
 	(v.State == STATE_PARTICIPATING_BANK_ACCEPT && (caller == PARTICIPATINGBANK || caller == LEADARRANGER)) ||
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
-        	v.repayedAmount = new_amount				// Update to the new value
+        v.repayedAmount = new_amount				// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
@@ -431,7 +431,7 @@ func (t *SimpleChaincode) update_repayedAmount(stub shim.ChaincodeStubInterface,
 	(v.State == STATE_PARTICIPATING_BANK_ACCEPT && (caller == PARTICIPATINGBANK || caller == LEADARRANGER)) ||
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
-        	v.disbursedAmount = new_amount				// Update to the new value
+        v.disbursedAmount = new_amount				// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
@@ -453,7 +453,7 @@ func (t *SimpleChaincode) update_participatingBank(stub shim.ChaincodeStubInterf
 	(v.State == STATE_PARTICIPATING_BANK_ACCEPT && (caller == PARTICIPATINGBANK || caller == LEADARRANGER)) ||
 	(v.State == STATE_DISBURSED && caller == BORROWER) ||
 	{*/
-        	v.participatingBank = new_bank				// Update to the new value
+        v.participatingBank = new_bank				// Update to the new value
 	//}
 	_, err  = t.save_changes(stub, v)		// Save the changes in the blockchain
 
@@ -478,7 +478,7 @@ func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, v l
 	caller_affiliation	== LEADARRANGER ||
 	caller_affiliation	== PARTICIPATINGBANK{*/
 
-		return bytes, nil
+	return bytes, nil
 	/*} else {
 																return nil, errors.New("Permission Denied. get_vehicle_details")
 	}*/
