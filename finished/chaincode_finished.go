@@ -125,7 +125,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 	if err != nil{ return nil, errors.New("Invalid value for noOfLoansCreated") }
 	noOfLoansCreated += 1
 	
-	var key, value string
+	var key string
 	
 	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
@@ -146,8 +146,11 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 	fmt.Println("running write()")
 
 	key = loanID //rename for funsies
-	value = json.Marshal(loan_json)
-	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
+	
+	value, err_ := json.Marshal(loanJson)
+	if err != nil { fmt.Printf("CREATE_LOAN: Error marshalling loanJson: %s", err); return nil, errors.New("Error marshalling loanJson")}
+	
+	err = stub.PutState(key, value) //write the variable into the chaincode state
 	if err != nil {
 		return nil, err
 	}
@@ -157,6 +160,8 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 	json.Unmarshal(loan_arr_str, &loan_array)
 	loan_array = append(loan_array, loanID)
 	bytes, err_ := json.Marshal(loan_array)
+	if err != nil { fmt.Printf("CREATE_LOAN: Error marshalling loan_array: %s", err); return nil, errors.New("Error marshalling loan_array")}
+	
 	stub.PutState("loansCreated", bytes)
 	
 	return bytes, nil
@@ -230,8 +235,9 @@ func (t *SimpleChaincode) update_status(stub shim.ChaincodeStubInterface,loanID 
 	if err != nil{ return nil, errors.New("Invalid value passed for status") }
 	
 	loanJson := stub.GetState(loanID)
-	loanJson = json.Unmarshal(loanJson)
-	loanJson.Status = new_status
+	var loanjsonVal loan
+	json.Unmarshal(loanJson, &loanjsonVal)
+	loanjsonVal.Status = new_status
 	
 	bytes, err_ := json.Marshal(loanJson)
 	if err != nil { fmt.Printf("UPDATE_STATUS: Error marshalling loanJson: %s", err); return nil, errors.New("Error marshalling loanJson")}
@@ -251,8 +257,9 @@ func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface,loanI
         var err error
 		
 	loanJson := stub.GetState(loanID)
-	loanJson = json.Unmarshal(loanJson)
-	loanJson.borrower = borrower
+	var loanjsonVal loan
+	json.Unmarshal(loanJson, &loanjsonVal)
+	loanjsonVal.borrower = borrower
 	
 	bytes, err_ := json.Marshal(loanJson)
 	if err != nil { fmt.Printf("UPDATE_STATUS: Error marshalling loanJson: %s", err); return nil, errors.New("Error marshalling loanJson")}
@@ -272,8 +279,9 @@ func (t *SimpleChaincode) update_leadArranger(stub shim.ChaincodeStubInterface,l
         var err error
 		
 	loanJson := stub.GetState(loanID)
-	loanJson = json.Unmarshal(loanJson)
-	loanJson.leadArranger = leadArranger
+	var loanjsonVal loan
+	json.Unmarshal(loanJson, &loanjsonVal)
+	loanjsonVal.leadArranger = leadArranger
 	
 	_, err  = stub.Putstate(loanID, []byte(json.Marshal(loanJson)))		// Save the changes in the blockchain
 
@@ -290,8 +298,9 @@ func (t *SimpleChaincode) update_participatingBank(stub shim.ChaincodeStubInterf
         var err error
 		
 	loanJson := stub.GetState(loanID)
-	loanJson = json.Unmarshal(loanJson)
-	loanJson.participatingBank = participatingBank
+	var loanjsonVal loan
+	json.Unmarshal(loanJson, &loanjsonVal)
+	loanjsonVal.participatingBank = participatingBank
 	
 	bytes, err_ := json.Marshal(loanJson)
 	if err != nil { fmt.Printf("UPDATE_STATUS: Error marshalling loanJson: %s", err); return nil, errors.New("Error marshalling loanJson")}
@@ -313,10 +322,11 @@ func (t *SimpleChaincode) update_loanAmount(stub shim.ChaincodeStubInterface,loa
 	new_amount, err := strconv.Atoi(string(amount))
 	
 	loanJson := stub.GetState(loanID)
-	loanJson = json.Unmarshal(loanJson)
-	loanJson.loanAmount = new_amount
+	var loanjsonVal loan
+	json.Unmarshal(loanJson, &loanjsonVal)
+	loanjsonVal.loanAmount = new_amount
 	
-	bytes, err_ := json.Marshal(loanJson)
+	bytes, err_ := json.Marshal(loanjsonVal)
 	if err != nil { fmt.Printf("UPDATE_STATUS: Error marshalling loanJson: %s", err); return nil, errors.New("Error marshalling loanJson")}
 	
 	_, err  = stub.Putstate(loanID, bytes)		// Save the changes in the blockchain
