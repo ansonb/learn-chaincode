@@ -278,10 +278,10 @@ func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface,loanI
 func (t *SimpleChaincode) update_leadArranger(stub shim.ChaincodeStubInterface,loanID string, arranger string) ([]byte, error) {
         var err error
 		
-	loanJson := stub.GetState(loanID)
+	loanJson, err_ := stub.GetState(loanID)
 	var loanjsonVal loan
 	json.Unmarshal(loanJson, &loanjsonVal)
-	loanjsonVal.leadArranger = leadArranger
+	loanjsonVal.leadArranger = arranger
 	
 	_, err  = stub.PutState(loanID, []byte(json.Marshal(loanJson)))		// Save the changes in the blockchain
 
