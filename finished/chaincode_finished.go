@@ -132,7 +132,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
 	}
 	
-	loanID := "loanID" + noOfLoansCreated
+	loanID := "loanID" + noOfLoansCreated_
 	loanID_             := "\"loanID\":\""+loanID+"\", "							// Variables to define the JSON
 	loanAmount         := "\"loanAmount\":\"UNDEFINED\", "
 	disbursedAmoun     := "\"disbursedAmoun\":\"UNDEFINED\", "
