@@ -64,8 +64,33 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	// Handle different functions
 	if function == "init" {
 		return t.Init(stub, "init", args)
-	} else if function == "write" {
+	} else if function == "create_loan" {	
 		return t.createLoan(stub, args)
+	} else if function == "update_loanAmount" {
+		if len(args) != 2 {
+			return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
+		}	
+		return t.update_loanAmount(stub, args[0], args[1])
+	}else if function == "update_borrower" {
+		if len(args) != 2 {
+			return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
+		}	
+		return t.update_borrower(stub, args[0], args[1])
+	}else if function == "update_leadArranger" {
+		if len(args) != 2 {
+			return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
+		}	
+		return t.update_leadArranger(stub, args[0], args[1])
+	}else if function == "update_participatingBank" {
+		if len(args) != 2 {
+			return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
+		}	
+		return t.update_participatingBank(stub, args[0], args[1])
+	}else if function == "update_status" {
+		if len(args) != 2 {
+			return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
+		}	
+		return t.update_status(stub, args[0], args[1])
 	}
 	fmt.Println("invoke did not find func: " + function)
 
@@ -77,8 +102,12 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	fmt.Println("query is running " + function)
 	
 	// Handle different functions
-	if function == "read" { //read a variable
-		return t.read(stub, args)
+	if function == "get_loan_detials" { //read a variable
+		return t.get_loan_detials(stub, args)
+	}if function == "get_noOfLoansCreated" { //read a variable
+		return t.get_noOfLoansCreated(stub, args)
+	}if function == "get_loansCreated" { //read a variable
+		return t.get_loansCreated(stub, args)
 	}
 	fmt.Println("query did not find func: " + function)
 
@@ -86,7 +115,8 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 }
 
 // write - invoke function to write key/value pair
-func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, loanID string, args []string) ([]byte, error) {
+//args:- borrower name
+func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	noOfLoansCreated := stub.GetState("noOfLoansCreated")
 	fmt.println("noOfLoansCreated")
 	fmt.println(noOfLoansCreated)
@@ -129,6 +159,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, loanID st
 }
 
 // read - query function to read key/value pair
+//args:- loanID
 func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var key, jsonResp string
@@ -149,6 +180,7 @@ func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, arg
 }
 
 // read - query function to read key/value pair
+//args:- none
 func (t *SimpleChaincode) get_noOfLoansCreated(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var key, jsonResp string
@@ -165,7 +197,8 @@ func (t *SimpleChaincode) get_noOfLoansCreated(stub shim.ChaincodeStubInterface,
 }
 
 // read - query function to read key/value pair
-func (t *SimpleChaincode) get_noOfLoansCreated(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+//args:- none
+func (t *SimpleChaincode) get_loansCreated(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var key, jsonResp string
 	var err error
