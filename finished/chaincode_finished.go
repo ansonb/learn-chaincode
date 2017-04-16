@@ -102,8 +102,8 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	fmt.Println("query is running " + function)
 	
 	// Handle different functions
-	if function == "get_loan_detials" { //read a variable
-		return t.get_loan_detials(stub, args)
+	if function == "get_loan_details" { //read a variable
+		return t.get_loan_details(stub, args)
 	}else if function == "get_noOfLoansCreated" { //read a variable
 		return t.get_noOfLoansCreated(stub, args)
 	}else if function == "get_loansCreated" { //read a variable
@@ -118,10 +118,10 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 //args:- borrower name
 func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	noOfLoansCreated := string(stub.GetState("noOfLoansCreated"))
-	fmt.println("noOfLoansCreated")
-	fmt.println(noOfLoansCreated)
+	fmt.Println("noOfLoansCreated")
+	fmt.Println(noOfLoansCreated)
 	var err error
-	noOfLoansCreated, err = strconv.Atoi(string(noOfloansCreated))
+	noOfLoansCreated, err = strconv.Atoi(string(noOfLoansCreated))
 	if err != nil{ return nil, errors.New("Invalid value for noOfLoansCreated") }
 	noOfLoansCreated += 1
 	
@@ -131,7 +131,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
 	}
 	
-	loanID = "loanID" + noOfLoansCreated
+	loanID := "loanID" + noOfLoansCreated
 	loanID_             := "\"loanID\":\""+loanID+"\", "							// Variables to define the JSON
 	loanAmount         := "\"loanAmount\":\"UNDEFINED\", "
 	disbursedAmoun     := "\"disbursedAmoun\":\"UNDEFINED\", "
@@ -142,7 +142,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 	Status             := "\"Status\":0, "
         	
 	loan_json := "{"+loanID_+loanAmount+disbursedAmoun+repayedAmount+borrower_+leadArranger+participatingBank+Status+"}" 	// Concatenates the variables to create the total JSON object
-	var err error
+	
 	fmt.Println("running write()")
 
 	key = loanID //rename for funsies
