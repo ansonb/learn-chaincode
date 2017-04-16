@@ -118,11 +118,11 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 //args:- borrower name
 func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	bytes, err_ := stub.GetState("noOfLoansCreated")
-	noOfLoansCreated := string(bytes)
+	noOfLoansCreated_ := string(bytes)
 	fmt.Println("noOfLoansCreated")
-	fmt.Println(noOfLoansCreated)
+	fmt.Println(noOfLoansCreated_)
 	var err error
-	noOfLoansCreated, err = strconv.Atoi(string(noOfLoansCreated))
+	noOfLoansCreated, err = strconv.Atoi(noOfLoansCreated_)
 	if err != nil{ return nil, errors.New("Invalid value for noOfLoansCreated") }
 	noOfLoansCreated += 1
 	
