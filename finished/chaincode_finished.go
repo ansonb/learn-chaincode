@@ -122,7 +122,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 	fmt.Println("noOfLoansCreated")
 	fmt.Println(noOfLoansCreated_)
 	var err error
-	noOfLoansCreated, err = strconv.Atoi(noOfLoansCreated_)
+	noOfLoansCreated, err := strconv.Atoi(noOfLoansCreated_)
 	if err != nil{ return nil, errors.New("Invalid value for noOfLoansCreated") }
 	noOfLoansCreated += 1
 	
