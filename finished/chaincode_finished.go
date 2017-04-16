@@ -167,7 +167,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 	var loan_array []string
 	json.Unmarshal(loan_arr_str, &loan_array)
 	loan_array = append(loan_array, loanID)
-	fmy.Println("loan_array")
+	fmt.Println("loan_array")
 	fmt.Println(loan_array)
 	bytes_la, err_la := json.Marshal(loan_array)
 	if err_la != nil { fmt.Printf("CREATE_LOAN: Error marshalling loan_array: %s", err); return nil, errors.New("Error marshalling loan_array")}
@@ -175,7 +175,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 	stub.PutState("loansCreated", bytes_la)
 	
 	noOfLoansCreatedBytes := []byte(string(noOfLoansCreated))
-	err := stub.PutState("noOfLoansCreated", noOfLoansCreatedBytes)
+	err = stub.PutState("noOfLoansCreated", noOfLoansCreatedBytes)
 	if err == nil {fmt.Println("Successfully written to noOfLoansCreated")}
 	
 	return bytes_la, nil
@@ -201,7 +201,7 @@ func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, arg
 	}
 	
 	var valJson loan
-	json.Unmarshal(valAsBytes, &valJson)
+	json.Unmarshal(valAsbytes, &valJson)
 	fmt.Println("retrieved loan json")
 	fmt.Println(valJson)
 	
