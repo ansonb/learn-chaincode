@@ -104,9 +104,9 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	// Handle different functions
 	if function == "get_loan_detials" { //read a variable
 		return t.get_loan_detials(stub, args)
-	}if function == "get_noOfLoansCreated" { //read a variable
+	}else if function == "get_noOfLoansCreated" { //read a variable
 		return t.get_noOfLoansCreated(stub, args)
-	}if function == "get_loansCreated" { //read a variable
+	}else if function == "get_loansCreated" { //read a variable
 		return t.get_loansCreated(stub, args)
 	}
 	fmt.Println("query did not find func: " + function)
