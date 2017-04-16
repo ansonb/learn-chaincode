@@ -151,7 +151,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 	value, err_ := json.Marshal(loan_json)
 	if err != nil { fmt.Printf("CREATE_LOAN: Error marshalling loanJson: %s", err); return nil, errors.New("Error marshalling loanJson")}
 	
-	err = stub.PutState(key, value) //write the variable into the chaincode state
+	err = stub.PutState(key, value) //write the new loan json byte array into the chaincode state
 	if err != nil {
 		return nil, err
 	}
@@ -160,12 +160,12 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 	var loan_array []string
 	json.Unmarshal(loan_arr_str, &loan_array)
 	loan_array = append(loan_array, loanID)
-	bytes, err_ := json.Marshal(loan_array)
+	bytes_la, err_la := json.Marshal(loan_array)
 	if err != nil { fmt.Printf("CREATE_LOAN: Error marshalling loan_array: %s", err); return nil, errors.New("Error marshalling loan_array")}
 	
-	stub.PutState("loansCreated", bytes)
+	stub.PutState("loansCreated", bytes_la)
 	
-	return bytes, nil
+	return bytes_la, nil
 }
 
 // read - query function to read key/value pair
