@@ -301,7 +301,7 @@ func (t *SimpleChaincode) update_leadArranger(stub shim.ChaincodeStubInterface,l
 func (t *SimpleChaincode) update_participatingBank(stub shim.ChaincodeStubInterface,loanID string, participatingBank string) ([]byte, error) {
         var err error
 		
-	loanJson, err_ := stub.GetState(loanID)
+	loanJson, _ := stub.GetState(loanID)
 	var loanjsonVal loan
 	json.Unmarshal(loanJson, &loanjsonVal)
 	loanjsonVal.participatingBank = participatingBank
