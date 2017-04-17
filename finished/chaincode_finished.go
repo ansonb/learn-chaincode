@@ -308,10 +308,14 @@ func (t *SimpleChaincode) update_leadArranger(stub shim.ChaincodeStubInterface,l
 	loanJson, _ := stub.GetState(loanID)
 	var loanjsonVal loan
 	json.Unmarshal(loanJson, &loanjsonVal)
+	fmt.Println("loanjsonVal before change")
+	fmt.Println(loanjsonVal)
 	loanjsonVal.leadArranger = arranger
+	fmt.Println("loanjsonVal after change")
+	fmt.Println(loanjsonVal)
 	
 	bytes, err := json.Marshal(loanJson)
-	if err != nil { fmt.Printf("UPDATE_PARTICIPATING: Error marshalling loanJson: %s", err); return nil, errors.New("Error marshalling loanJson")}
+	if err != nil { fmt.Printf("UPDATE_LEADARRANGER: Error marshalling loanJson: %s", err); return nil, errors.New("Error marshalling loanJson")}
 
 	err  = stub.PutState(loanID, bytes)		// Save the changes in the blockchain
 
