@@ -242,7 +242,7 @@ func (t *SimpleChaincode) get_loansCreated(stub shim.ChaincodeStubInterface, arg
 	
 	var noOfLoansCreated_ string
 	json.Unmarshal(valAsbytes, &noOfLoansCreated_)
-	noOfLoansCreated := strconv.Atoi(noOfLoansCreated_)
+	noOfLoansCreated, _ := strconv.Atoi(noOfLoansCreated_)
 	fmt.Println("No of loans created")
 	fmt.Println(noOfLoansCreated)
 	return valAsbytes, nil
