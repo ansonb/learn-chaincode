@@ -307,7 +307,7 @@ func (t *SimpleChaincode) update_leadArranger(stub shim.ChaincodeStubInterface,l
 		
 	loanJson, err := stub.GetState(loanID)
 	if err != nil {
-		fmt.Println("Error in getting state loanID " + loanID
+		fmt.Println("Error in getting state loanID " + loanID)
 		return nil,err
 	}
 	var loanjsonVal loan
