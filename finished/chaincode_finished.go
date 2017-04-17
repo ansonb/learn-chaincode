@@ -305,7 +305,11 @@ func (t *SimpleChaincode) update_borrower(stub shim.ChaincodeStubInterface,loanI
 func (t *SimpleChaincode) update_leadArranger(stub shim.ChaincodeStubInterface,loanID string, arranger string) ([]byte, error) {
         var err error
 		
-	loanJson, _ := stub.GetState(loanID)
+	loanJson, err := stub.GetState(loanID)
+	if err != nil {
+		fmt.Println("Error in getting state loanID " + loanID
+		return nil,err
+	}
 	var loanjsonVal loan
 	json.Unmarshal(loanJson, &loanjsonVal)
 	fmt.Println("loanjsonVal before change")
