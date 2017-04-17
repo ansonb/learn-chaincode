@@ -98,7 +98,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 }
 
 // Query is our entry point for queries
-func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]string, error) {
+func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("query is running " + function)
 	
 	// Handle different functions
@@ -183,7 +183,7 @@ func (t *SimpleChaincode) createLoan(stub shim.ChaincodeStubInterface, args []st
 
 // read - query function to read key/value pair
 //args:- loanID
-func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, args []string) (loan, error) {
+func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var key, jsonResp string
 	var err error
@@ -205,13 +205,13 @@ func (t *SimpleChaincode) get_loan_details(stub shim.ChaincodeStubInterface, arg
 	fmt.Println("retrieved loan json")
 	fmt.Println(valJson)
 	
-	//return valAsbytes, nil
-	return valJson, nil
+	return valAsbytes, nil
+	//return valJson, nil
 }
 
 // read - query function to read key/value pair
 //args:- none
-func (t *SimpleChaincode) get_noOfLoansCreated(stub shim.ChaincodeStubInterface, args []string) (int, error) {
+func (t *SimpleChaincode) get_noOfLoansCreated(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	
 	var key, jsonResp string
 	var err error
@@ -245,8 +245,8 @@ func (t *SimpleChaincode) get_loansCreated(stub shim.ChaincodeStubInterface, arg
 	noOfLoansCreated := strconv.Atoi(noOfLoansCreated_)
 	fmt.Println("No of loans created")
 	fmt.Println(noOfLoansCreated)
-	//return valAsbytes, nil
-	return noOfLoansCreated, nil
+	return valAsbytes, nil
+	//return noOfLoansCreated, nil
 }
 
 //=================================================================================================================================
